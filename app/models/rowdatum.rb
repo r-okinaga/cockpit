@@ -1,0 +1,2 @@
+class Rowdatum < ApplicationRecord
+end

@@ -1,0 +1,21 @@
+<h1>データ一覧</h1>
+<table>
+    <tbody>
+    <tr>
+        <th>コード</th>
+        <th>区分</th>
+        <th>担当者</th>
+        <th>売上</th>
+        <th>原価</th>
+    </tr>
+    <% @rowdatum.each do |row| %>
+        <tr>
+            <th><%= row.code %></th>
+            <th><%= row.div %></th>
+            <th><%= row.staff %></th>
+            <th><%= row.uriage %></th>
+            <th><%= row.genka %></th>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

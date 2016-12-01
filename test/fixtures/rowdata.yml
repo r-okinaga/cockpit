@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  div: MyString
+  staff: MyString
+  uriage: 9.99
+  genka: 9.99
+
+two:
+  code: MyString
+  div: MyString
+  staff: MyString
+  uriage: 9.99
+  genka: 9.99
