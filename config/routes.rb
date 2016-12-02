@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-    root 'rowdata#index'
 
     namespace :api, {format: 'json'} do
-        controller 'rowdata' do
-          post 'create'
-        end
+        resources :rowdatum
     end
+
+    root 'rowdata#index'
+    resources :rowdatum
 end
