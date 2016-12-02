@@ -5,5 +5,5 @@ Rails.application.routes.draw do
     end
 
     root 'rowdata#index'
-    resources :rowdatum
+    resources :rowdata
 end
