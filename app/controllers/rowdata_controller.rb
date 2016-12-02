@@ -1,4 +1,5 @@
 class RowdataController < ApplicationController
+    skip_before_filter :verify_authenticity_token
 
     def index
         @rowdatum = Rowdatum.all
@@ -9,7 +10,14 @@ class RowdataController < ApplicationController
     end
 
     def create
-        p JSON.parse(request.body.read)
+        params = JSON.parse request.body.read
+
+        params.each do |param|
+            @rowdata = Rowdatum.new(param)
+            if @rowdata.save
+
+            end
+        end
         render :index
     end
 end
