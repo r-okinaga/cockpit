@@ -13,9 +13,12 @@ class RowdataController < ApplicationController
         params = JSON.parse request.body.read
 
         params.each do |param|
-            @rowdata = Rowdatum.new(param)
-            if @rowdata.save
-
+            if Rowdatum.exists?(code: params[:code])
+                rowdata = Rowdatum.find(code: params[:code])
+                rowdata.update_attributes(params)
+            else
+                rowdata = Rowdatum.new(param)
+                rowdata.save!
             end
         end
         render :index
