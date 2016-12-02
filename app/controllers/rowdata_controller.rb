@@ -15,7 +15,7 @@ class RowdataController < ApplicationController
         params.each do |param|
             ##TODO 更新したいデータが、新規作成になる
             if Rowdatum.exists?(code: param["code"])
-                rowdata = Rowdatum.find_by_code(code: param["code"])
+                rowdata = Rowdatum.find_by_code(param["code"])
                 rowdata.update_attributes(param)
             else
                 rowdata = Rowdatum.new(param)
