@@ -27,6 +27,8 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem "binding_of_caller"
+gem 'google-api-client'
+gem 'rb-readline'
 
 # Use Capistrano for deployment
 
