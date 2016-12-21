@@ -24,7 +24,7 @@ class RowdataController < ApplicationController
         render :index
     end
 
-    def s_save
+    def show
         rowdata =  Rowdatum.new
         if rowdata.sheet_save(params[:sheet_id])
             respond_to do |format|
