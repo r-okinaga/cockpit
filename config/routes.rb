@@ -5,6 +5,6 @@ Rails.application.routes.draw do
     post 'rowdata/create', to: 'rowdata#create'
 
    namespace :api, {format: 'json'} do
-       resources :rowdata
+       get 'rowdata/index', to: 'rowdata#index'
    end
 end
