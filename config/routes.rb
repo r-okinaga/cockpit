@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
     root 'rowdata#index'
-    get 'rowsata/s_save', to: 'rowdata#s_save'
+    get 'rowdata/s_save', to: 'rowdata#s_save'
     resources :rowdata
 
    namespace :api, {format: 'json'} do
