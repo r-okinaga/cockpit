@@ -14,11 +14,11 @@ class Rowdatum < ApplicationRecord
     )
     SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
 
-    def sheet_save
+    def sheet_save(sheet_id)
         service = Google::Apis::SheetsV4::SheetsService.new
         service.client_options.application_name = APPLICATION_NAME
         service.authorization = authorize
-        spreadsheet_id = '1zQzj8HD9Luh3NcvXUfQX4mETbC7hcguF00ZFaGhG2fc'
+        spreadsheet_id = sheet_id
         range = 'あああ!A2:E'
         response = service.get_spreadsheet_values(spreadsheet_id, range)
         puts 'Name, Major:'
