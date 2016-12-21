@@ -23,4 +23,15 @@ class RowdataController < ApplicationController
         end
         render :index
     end
+
+    def s_save
+        rowdata =  Rowdatum.new
+        if rowdata.sheet_save(params[:sheet_id])
+            respond_to do |format|
+                format.html
+                format.json { render json: :success }
+            end
+        end
+    end
+
 end
