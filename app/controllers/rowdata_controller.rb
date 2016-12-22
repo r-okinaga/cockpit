@@ -5,7 +5,7 @@ class RowdataController < ApplicationController
         @rowdatum = Rowdatum.all
         respond_to do |format|
             format.html
-            format.json { render json: @rowdatum}
+            format.json { render json: @rowdatum }
         end
     end
 
@@ -25,12 +25,20 @@ class RowdataController < ApplicationController
     end
 
     def show
-        rowdata =  Rowdatum.new
-        if rowdata.sheet_save(params[:sheet_id])
-            respond_to do |format|
-                format.html
-                format.json { render json: :success }
-            end
+        rowdata = Rowdatum.new
+
+        case params[:cmd]
+            when 'save'
+                if rowdata.sheet_save(params[:sheet_id])
+                    respond_to do |format|
+                        format.html
+                        format.json { render json: :success }
+                    end
+                end
+            when 'load'
+
+            else
+                raise "Unknown command."
         end
     end
 
