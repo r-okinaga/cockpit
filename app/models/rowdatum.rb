@@ -33,6 +33,7 @@ class Rowdatum < ApplicationRecord
                     rowdata.staff = row[STAFF]
                     rowdata.uriage = row[URIAGE]
                     rowdata.genka = row[GENKA]
+                    rowdata.save!
                 else
                     Rowdatum.create(
                         code: row[CODE],
