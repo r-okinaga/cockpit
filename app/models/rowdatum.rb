@@ -31,8 +31,8 @@ class Rowdatum < ApplicationRecord
                     rowdata = Rowdatum.find_by_code(row[CODE])
                     rowdata.div = row[CLIENT]
                     rowdata.staff = row[STAFF]
-                    rowdata.uriage = row[URIAGE]
-                    rowdata.genka = row[GENKA]
+                    rowdata.uriage = str_to_decimal(row[URIAGE])
+                    rowdata.genka = str_to_decimal(row[GENKA])
                     rowdata.save!
                 else
                     Rowdatum.create(
@@ -54,6 +54,11 @@ class Rowdatum < ApplicationRecord
 
     def data_range
         'PM1!A2:E100'
+    end
+
+    def str_to_decimal(str)
+        str = str.delete('¥')
+        str.delete(',')
     end
 
     def authorize
