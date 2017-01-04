@@ -31,8 +31,8 @@ class Rowdatum < ApplicationRecord
                     rowdata = Rowdatum.find_by_code(row[CODE])
                     rowdata.div = row[CLIENT]
                     rowdata.staff = row[STAFF]
-                    rowdata.uriage = str_to_decimal(row[URIAGE])
-                    rowdata.genka = str_to_decimal(row[GENKA])
+                    rowdata.uriage = str_to_decimal(row[URIAGE]).to_i
+                    rowdata.genka = str_to_decimal(row[GENKA]).to_i
                     rowdata.save!
                 else
                     Rowdatum.create(
