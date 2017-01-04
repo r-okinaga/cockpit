@@ -58,7 +58,7 @@ class Rowdatum < ApplicationRecord
         value_range.major_dimension = 'COLUMNS'
         value_range.values = create_data
 
-        sheet_service.update_spreadsheet_value(
+        @service.update_spreadsheet_value(
             sheet_id,
             value_range.range,
             value_range,
