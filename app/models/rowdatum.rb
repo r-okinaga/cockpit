@@ -59,9 +59,9 @@ class Rowdatum < ApplicationRecord
         request = Net::HTTP::Post.new(uri.path)
 
         data = create_json_data
+        Rails.logger.debug data
         request.set_form_data(data)
 
-        load_data(sheet_id, data)
     end
 
     private
