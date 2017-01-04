@@ -53,27 +53,71 @@ class Rowdatum < ApplicationRecord
         @service = Google::Apis::SheetsV4::SheetsService.new
         authorize
 
-        value_range = Google::Apis::SheetsV4::ValueRange.new
-        value_range.range = data_range
-        value_range.major_dimension = 'COLUMNS'
-        value_range.values = create_data
-
-        @service.update_spreadsheet_value(
-            sheet_id,
-            value_range.range,
-            value_range,
-            value_input_option: 'USER_ENTERED',
-        )
+        uri = URI.parse("https://sheets.googleapis.com/v4/spreadsheets/#{sheet_id}:batchUpdate")
+        https = Net::HTTP.new(uri.host, uri.port)
+        https.use_ssl = true
+        req = Net::HTTP::Post.new(uri.request_uri)
+        req["Content-Type"] = "application/json"
+        req["Authorization"] = @service.authorization
+        req.body = create_json_data
+        https.request(req)
 
     end
 
     private
-    def create_data
+    def create_json_data
         rows = []
-        Rowdatum.all.each do |row|
-            rows << [row.code, row.div, row.staff, row.uriage, row.genka]
+        rowdatum = Rowdatum.all
+        rowdatum.each do |row|
+            if row.code.present?
+                rows << {
+                    "values": [
+                        {
+                            "userEnteredValue": {
+                                "stringValue": row.code
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": row.div
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": row.staff
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "numberValue": row.uriage
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "numberValue": row.genka
+                            }
+                        }
+                    ]
+                }
+            end
         end
-        rows
+
+        data = {
+            "requests": [
+                {
+                    "updateCells": {
+                        "start": {
+                            "sheetId": 0,
+                            "rowIndex": 1,
+                            "columnIndex": 0
+                        },
+                        "rows": rows,
+                        "fields": "userEnteredValue"
+                    }
+                }
+            ]
+        }
+        data.to_json
     end
 
     def get_data(sheet_id)
