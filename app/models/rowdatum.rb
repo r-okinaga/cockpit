@@ -106,7 +106,7 @@ class Rowdatum < ApplicationRecord
                     "updateCells": {
                         "start": {
                             "sheetId": 0,
-                            "rowIndex": 0,
+                            "rowIndex": 1,
                             "columnIndex": 0
                         },
                         "rows": rows,
