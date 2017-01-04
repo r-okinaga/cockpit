@@ -3,6 +3,7 @@ class Rowdatum < ApplicationRecord
     require 'googleauth'
     require 'googleauth/stores/file_token_store'
     require 'fileutils'
+    require 'net/https'
 
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
     APPLICATION_NAME = 'kensho'
@@ -47,7 +48,76 @@ class Rowdatum < ApplicationRecord
         end
     end
 
+    def load_sheet_data(sheet_id)
+        @service = Google::Apis::SheetsV4::SheetsService.new
+        authorize
+
+        uri = URI.parse("https://sheets.googleapis.com/v4/spreadsheets/#{sheet_id}:batchUpdate")
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        request = Net::HTTP::Post.new(uri.path)
+
+        data = create_json_data
+        request.set_form_data(data)
+
+        load_data(sheet_id, data)
+    end
+
     private
+    def create_json_data
+        rows = []
+        rowdatum = Rowdatum.all
+        rowdatum.each do |row|
+            rows << {
+                "values": [
+                    {
+                        "userEnteredValue": {
+                            "stringValue": row.code
+                        }
+                    },
+                    {
+                        "userEnteredValue": {
+                            "stringValue": row.div
+                        }
+                    },
+                    {
+                        "userEnteredValue": {
+                            "stringValue": row.staff
+                        }
+                    },
+                    {
+                        "userEnteredValue": {
+                            "numberValue": row.uriage
+                        }
+                    },
+                    {
+                        "userEnteredValue": {
+                            "numberValue": row.genka
+                        }
+                    }
+                ]
+            }
+        end
+
+        data = {
+            "requests": [
+                {
+                    "updateCells": {
+                        "start": {
+                            "sheetId": 0,
+                            "rowIndex": 0,
+                            "columnIndex": 0
+                        },
+                        "rows": rows,
+                        "fields": "userEnteredValue"
+                    }
+                }
+            ]
+        }
+        data
+    end
+
     def get_data(sheet_id)
         @service.get_spreadsheet_values(sheet_id, data_range)
     end

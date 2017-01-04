@@ -36,7 +36,12 @@ class RowdataController < ApplicationController
                     end
                 end
             when 'load'
-
+                if rowdata.load_sheet_data(params[:sheet_id])
+                    respond_to do |format|
+                        format.html
+                        format.json { render json: :success }
+                    end
+                end
             else
                 raise "Unknown command."
         end
