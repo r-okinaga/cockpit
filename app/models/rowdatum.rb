@@ -14,6 +14,12 @@ class Rowdatum < ApplicationRecord
     )
     SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
 
+    CODE = 0
+    CLIENT = 1
+    STAFF = 2
+    URIAGE = 3
+    GENKA = 4
+
     def save_sheet_data(sheet_id)
         @service = Google::Apis::SheetsV4::SheetsService.new
         authorize
@@ -21,7 +27,21 @@ class Rowdatum < ApplicationRecord
 
         if sheet_data.present?
             sheet_data.values.each do |row|
-                Rails.logger.debug "#{row[0]}, #{row[4]}"
+                if Rowdatum.exists?(code: row[CODE])
+                    rowdata = Rowdatum.find_by_code(row[CODE])
+                    rowdata.div = row[CLIENT]
+                    rowdata.staff = row[STAFF]
+                    rowdata.uriage = row[URIAGE]
+                    rowdata.genka = row[GENKA]
+                else
+                    Rodatum.create(
+                        code: row[CODE],
+                        div: row[CLIENT],
+                        staff: row[STAFF],
+                        uriage: row[URIAGE],
+                        genka: row[GENKA]
+                    )
+                end
             end
         end
     end
