@@ -71,7 +71,7 @@ class Rowdatum < ApplicationRecord
     def create_data
         rows = []
         Rowdatum.all.each do |row|
-            rows << [row.code, row.dive, row.staff, row.uriage, row.genka]
+            rows << [row.code, row.div, row.staff, row.uriage, row.genka]
         end
         rows
     end
