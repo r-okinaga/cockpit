@@ -70,35 +70,37 @@ class Rowdatum < ApplicationRecord
         rows = []
         rowdatum = Rowdatum.all
         rowdatum.each do |row|
-            rows << {
-                "values": [
-                    {
-                        "userEnteredValue": {
-                            "stringValue": row.code
+            if row.code.present?
+                rows << {
+                    "values": [
+                        {
+                            "userEnteredValue": {
+                                "stringValue": row.code
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": row.div
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": row.staff
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "numberValue": row.uriage
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "numberValue": row.genka
+                            }
                         }
-                    },
-                    {
-                        "userEnteredValue": {
-                            "stringValue": row.div
-                        }
-                    },
-                    {
-                        "userEnteredValue": {
-                            "stringValue": row.staff
-                        }
-                    },
-                    {
-                        "userEnteredValue": {
-                            "numberValue": row.uriage
-                        }
-                    },
-                    {
-                        "userEnteredValue": {
-                            "numberValue": row.genka
-                        }
-                    }
-                ]
-            }
+                    ]
+                }
+            end
         end
 
         data = {
