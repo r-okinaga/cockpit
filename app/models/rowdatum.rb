@@ -23,8 +23,10 @@ class Rowdatum < ApplicationRecord
         range = 'PM1!A100:E'
         response = service.get_spreadsheet_values(sheet_id, range)
 
-        response.values.each do |row|
-            Rails.logger.debug "#{row[0]}, #{row[4]}"
+        if response.present?
+            response.values.each do |row|
+                Rails.logger.debug "#{row[0]}, #{row[4]}"
+            end
         end
     end
 
