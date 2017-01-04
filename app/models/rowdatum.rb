@@ -18,11 +18,11 @@ class Rowdatum < ApplicationRecord
         service = Google::Apis::SheetsV4::SheetsService.new
         service.client_options.application_name = APPLICATION_NAME
         service.authorization = authorize
-        spreadsheet_id = sheet_id
-        range = 'あああ!A2:E'
-        response = service.get_spreadsheet_values(spreadsheet_id, range)
-        puts 'Name, Major:'
-        puts 'No data found.' if response.values.empty?
+
+        sheet_id = sheet_id
+        range = 'PM1!A100:E'
+        response = service.get_spreadsheet_values(sheet_id, range)
+
         response.values.each do |row|
             Rails.logger.debug "#{row[0]}, #{row[4]}"
         end
