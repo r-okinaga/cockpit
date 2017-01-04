@@ -57,11 +57,12 @@ class Rowdatum < ApplicationRecord
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        request = Net::HTTP::Post.new(uri.path)
+        req = Net::HTTP::Post.new(uri.path)
+        req["Content-Type"] = "application/json"
 
         data = create_json_data
         Rails.logger.debug data
-        request.set_form_data(data)
+        req.set_form_data(data)
 
     end
 
