@@ -56,7 +56,6 @@ class Rowdatum < ApplicationRecord
         uri = URI.parse("https://sheets.googleapis.com/v4/spreadsheets/#{sheet_id}:batchUpdate")
         https = Net::HTTP.new(uri.host, uri.port)
         https.use_ssl = true
-        https.verify_mode = OpenSSL::SSL::VERIFY_NONE
         req = Net::HTTP::Post.new(uri.request_uri)
         req["Content-Type"] = "application/json"
         req.body = create_json_data
