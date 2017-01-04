@@ -4,6 +4,7 @@ class Rowdatum < ApplicationRecord
     require 'googleauth/stores/file_token_store'
     require 'fileutils'
     require 'net/https'
+    require 'json'
 
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
     APPLICATION_NAME = 'kensho'
@@ -59,8 +60,8 @@ class Rowdatum < ApplicationRecord
         request = Net::HTTP::Post.new(uri.path)
 
         data = create_json_data
-        Rails.logger.debug data
-        request.set_form_data(data)
+        Rails.logger.debug data.to_json
+        request.set_form_data(data.to_json)
 
     end
 
