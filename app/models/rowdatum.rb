@@ -54,15 +54,13 @@ class Rowdatum < ApplicationRecord
         authorize
 
         uri = URI.parse("https://sheets.googleapis.com/v4/spreadsheets/#{sheet_id}:batchUpdate")
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        req = Net::HTTP::Post.new(uri.path)
+        https = Net::HTTP.new(uri.host, uri.port)
+        https.use_ssl = true
+        https.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        req = Net::HTTP::Post.new(uri.request_uri)
         req["Content-Type"] = "application/json"
-
-        data = create_json_data
-        Rails.logger.debug data
-        req.set_form_data(data)
+        req.body = create_json_data
+        https.request(req)
 
     end
 
