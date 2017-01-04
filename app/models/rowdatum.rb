@@ -20,7 +20,7 @@ class Rowdatum < ApplicationRecord
         service.authorization = authorize
 
         sheet_id = sheet_id
-        range = 'PM1!A100:E'
+        range = 'PM1!A1:E100'
         response = service.get_spreadsheet_values(sheet_id, range)
 
         if response.present?
