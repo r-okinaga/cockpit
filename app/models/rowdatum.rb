@@ -14,24 +14,29 @@ class Rowdatum < ApplicationRecord
     )
     SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
 
-    def sheet_save(sheet_id)
-        service = Google::Apis::SheetsV4::SheetsService.new
-        service.client_options.application_name = APPLICATION_NAME
-        service.authorization = authorize
+    def save_sheet_data(sheet_id)
+        @service = Google::Apis::SheetsV4::SheetsService.new
+        authorize
+        sheet_data = get_data(sheet_id)
 
-        sheet_id = sheet_id
-        range = 'PM1!A1:E100'
-        response = service.get_spreadsheet_values(sheet_id, range)
-
-        if response.present?
-            response.values.each do |row|
+        if sheet_data.present?
+            sheet_data.values.each do |row|
                 Rails.logger.debug "#{row[0]}, #{row[4]}"
             end
         end
     end
 
     private
+    def get_data(sheet_id)
+        @service.get_spreadsheet_values(sheet_id, data_range)
+    end
+
+    def data_range
+        'PM1!A2:E100'
+    end
+
     def authorize
+        @service.client_options.application_name = APPLICATION_NAME
         FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
         client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
@@ -50,6 +55,6 @@ class Rowdatum < ApplicationRecord
             credentials = authorizer.get_and_store_credentials_from_code(
                 user_id: user_id, code: code, base_url: OOB_URI)
         end
-        credentials
+        @service.authorization = credentials
     end
 end

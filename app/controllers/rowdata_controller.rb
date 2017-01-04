@@ -29,7 +29,7 @@ class RowdataController < ApplicationController
 
         case params[:cmd]
             when 'save'
-                if rowdata.sheet_save(params[:sheet_id])
+                if rowdata.save_sheet_data(params[:sheet_id])
                     respond_to do |format|
                         format.html
                         format.json { render json: :success }
