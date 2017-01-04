@@ -34,7 +34,7 @@ class Rowdatum < ApplicationRecord
                     rowdata.uriage = row[URIAGE]
                     rowdata.genka = row[GENKA]
                 else
-                    Rodatum.create(
+                    Rowdatum.create(
                         code: row[CODE],
                         div: row[CLIENT],
                         staff: row[STAFF],
