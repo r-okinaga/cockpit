@@ -52,6 +52,7 @@ class Rowdatum < ApplicationRecord
     def load_sheet_data(sheet_id)
         @service = Google::Apis::SheetsV4::SheetsService.new
         authorize
+        ##TODO スプレッドシートへの認証ができていない
 
         uri = URI.parse("https://sheets.googleapis.com/v4/spreadsheets/#{sheet_id}:batchUpdate")
         https = Net::HTTP.new(uri.host, uri.port)
@@ -60,7 +61,6 @@ class Rowdatum < ApplicationRecord
         req["Content-Type"] = "application/json"
         req.body = create_json_data
         https.request(req)
-
     end
 
     private
